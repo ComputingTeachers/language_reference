@@ -1,0 +1,19 @@
+name: language_reference_python
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/language_reference_python.yml"
+      - "make_ver/**"
+      - "language_reference/languages/python"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - name: python
+        run: docker compose --project-directory language_reference up --build python

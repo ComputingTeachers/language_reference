@@ -1,0 +1,19 @@
+name: language_reference_php
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/language_reference_php.yml"
+      - "make_ver/**"
+      - "language_reference/languages/php"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - name: php
+        run: docker compose --project-directory language_reference up --build php

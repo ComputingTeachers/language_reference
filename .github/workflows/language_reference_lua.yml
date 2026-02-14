@@ -1,0 +1,19 @@
+name: language_reference_lua
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/language_reference_lua.yml"
+      - "make_ver/**"
+      - "language_reference/languages/lua"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - name: lua
+        run: docker compose --project-directory language_reference up --build lua

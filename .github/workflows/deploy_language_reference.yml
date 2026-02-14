@@ -1,0 +1,22 @@
+name: deploy_language_referemce
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/deploy_website.yml"
+      - "make_ver/**"
+      - "language_reference/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      #- name: run_languages
+      #  run: make --directory language_reference build_and_run
+
+      #- name: build_static
+      #  run: (cd teachprogramming/lib && make build_static)

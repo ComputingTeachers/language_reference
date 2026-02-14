@@ -1,0 +1,19 @@
+name: language_reference_c
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/language_reference_c.yml"
+      - "make_ver/**"
+      - "language_reference/languages/c"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - name: c
+        run: docker compose --project-directory language_reference up --build c

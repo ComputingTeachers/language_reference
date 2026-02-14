@@ -1,0 +1,19 @@
+name: language_reference_rust
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/language_reference_rust.yml"
+      - "make_ver/**"
+      - "language_reference/languages/rust"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - name: rust
+        run: docker compose --project-directory language_reference up --build rust

@@ -1,0 +1,19 @@
+name: language_reference_golang
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/language_reference_golang.yml"
+      - "make_ver/**"
+      - "language_reference/languages/golang"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - name: golang
+        run: docker compose --project-directory language_reference up --build golang

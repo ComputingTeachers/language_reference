@@ -1,0 +1,19 @@
+name: language_reference_java
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/language_reference_java.yml"
+      - "make_ver/**"
+      - "language_reference/languages/java"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - name: java
+        run: docker compose --project-directory language_reference up --build java

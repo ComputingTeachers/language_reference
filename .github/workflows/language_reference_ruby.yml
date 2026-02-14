@@ -1,0 +1,19 @@
+name: language_reference_ruby
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/language_reference_ruby.yml"
+      - "make_ver/**"
+      - "language_reference/languages/ruby"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - name: ruby
+        run: docker compose --project-directory language_reference up --build ruby
