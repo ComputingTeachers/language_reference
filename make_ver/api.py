@@ -5,7 +5,10 @@ from typing import Iterable
 import falcon
 
 import _falcon_helpers
-from make_ver2 import ProjectVersions, LanguageVersions, LANGUAGES
+
+from .make_ver import LANGUAGES
+from .language_versions import LanguageVersions
+from .project_versions import ProjectVersions
 
 log = logging.getLogger(__name__)
 
@@ -101,12 +104,12 @@ def create_wsgi_app(project_path=None, language_path=None, **kwargs):
 
 # Export ----------------------------------------------------------------------
 
-def export():
-    from falcon import testing
-    test_client = testing.TestClient(app)
+def export(output_path: Path = Path()) -> None:
+    from falcon import testing as falcon_testing
+    test_client = falcon_testing.TestClient(app)
     def read_write(url):
         log.info(url)
-        path = Path(url.strip('/'))
+        path = output_path.joinpath(url.strip('/'))
         path.parent.mkdir(parents=True, exist_ok=True)
         with path.open('wt', encoding="utf-8") as filehandle:
             data = test_client.simulate_get(url)
@@ -136,7 +139,7 @@ def get_args():
     parser.add_argument('--host', action='store', default='0.0.0.0', help='')
     parser.add_argument('--port', action='store', default=8000, type=int, help='')
 
-    parser.add_argument('--export', action='store_true')
+    parser.add_argument('--export', action='store', type=Path)
 
     parser.add_argument('--log_level', action='store', type=int, help='loglevel of output to stdout', default=logging.INFO)
 
@@ -154,7 +157,7 @@ if __name__ == '__main__':
     app = create_wsgi_app(**kwargs)
 
     if kwargs['export']:
-        export()
+        export(kwargs['export'])
         exit()
 
     try:

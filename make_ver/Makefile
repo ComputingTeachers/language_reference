@@ -30,9 +30,9 @@ test_docker:
 
 build_static_local:
 	python3 api.py ../static/projects/ ../static/language_reference/languages/ --export
-run_local:
-	python3 -m pdb -c continue   api.py ../static/projects/ ../static/language_reference/languages/
+serve_local:
+	uv run -m pdb -c continue  api.py ../static/projects/ ../static/language_reference/languages/
 	# http://localhost:8000/static/index.html
 	# http://localhost:8000/api/v1/language_reference.json
-test_local:
-	PYTHONPATH=./ pytest --doctest-modules
+test:
+	uv run pytest
