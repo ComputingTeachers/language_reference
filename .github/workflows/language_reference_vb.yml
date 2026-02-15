@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - ".github/workflows/language_reference_vb.yml"
-      - "make_ver/**"
       - "language_reference/languages/vb"
 
 jobs:

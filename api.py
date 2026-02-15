@@ -97,14 +97,17 @@ class ProjectResource():
 
 # Setup App -------------------------------------------------------------------
 
-def create_wsgi_app(path_project: Path, path_language: Path, path_static: Path, **kwargs):
+def create_wsgi_app(path_project: Path|None, path_language: Path|None, path_static: Path|None, **kwargs):
     app = falcon.App()
-    app.add_route(r'/', IndexResource())
-    app.add_static_route(r'/static', str(path_static.resolve()))
-    app.add_route(r'/api/v1/language_reference.json', LanguageReferenceResource(path_language))
-    app.add_route(r'/api/v1/projects.json', ProjectListResource(path_project))
-    _falcon_helpers.add_sink(app, r'/api/v1/projects/', ProjectResource(path_project), func_path_normalizer=_falcon_helpers.func_path_normalizer_no_extension)
     _falcon_helpers.update_json_handlers(app)
+    app.add_route(r'/', IndexResource())
+    if path_static:
+        app.add_static_route(r'/static', str(path_static.resolve()))
+    if path_language:
+        app.add_route(r'/api/v1/language_reference.json', LanguageReferenceResource(path_language))
+    if path_project:
+        app.add_route(r'/api/v1/projects.json', ProjectListResource(path_project))
+        _falcon_helpers.add_sink(app, r'/api/v1/projects/', ProjectResource(path_project), func_path_normalizer=_falcon_helpers.func_path_normalizer_no_extension)
     # TODO: Currently unable to drop into debugger on error - investigate?
     # https://falcon.readthedocs.io/en/stable/api/app.html#falcon.App.add_error_handler
     # add_error_handler(exception, handler=None)
@@ -112,21 +115,25 @@ def create_wsgi_app(path_project: Path, path_language: Path, path_static: Path, 
 
 # Export ----------------------------------------------------------------------
 
-def export(output_path: Path = Path()) -> None:
+def export(path_export: Path, path_language: Path, path_project: Path, **kwargs) -> None:
     from falcon import testing as falcon_testing
     test_client = falcon_testing.TestClient(app)
-    def read_write(url):
+
+    def write_url_to_file(url):
         log.info(url)
-        file_path = output_path.joinpath(url.strip('/'))
+        file_path = path_export.joinpath(url.strip('/'))
         file_path.parent.mkdir(parents=True, exist_ok=True)
         with file_path.open('wt', encoding="utf-8") as filehandle:
             data = test_client.simulate_get(url)
             filehandle.write(data.text)
             return data.json
-    read_write('/api/v1/language_reference.json')
-    projects = read_write('/api/v1/projects.json')['projects']
-    for project in projects:
-        read_write(f'/api/v1/projects/{project}.json')
+
+    if path_language:
+        write_url_to_file('/api/v1/language_reference.json')
+    if path_project:
+        projects = write_url_to_file('/api/v1/projects.json')['projects']
+        for project in projects:
+            write_url_to_file(f'/api/v1/projects/{project}.json')
 
 
 # Commandlin Args -------------------------------------------------------------
@@ -141,14 +148,14 @@ def get_args():
         ''',
     )
 
-    parser.add_argument('--path_project', action='store', default='./', help='', type=Path)
-    parser.add_argument('--path_language', action='store', default='./', help='', type=Path)
-    parser.add_argument('--path_static', action='store', default='./', help='', type=Path)
+    parser.add_argument('--path_project', action='store', help='', type=Path)
+    parser.add_argument('--path_language', action='store', help='', type=Path)
+    parser.add_argument('--path_static', action='store', help='', type=Path)
 
     parser.add_argument('--host', action='store', default='0.0.0.0', help='')
     parser.add_argument('--port', action='store', default=8000, type=int, help='')
 
-    parser.add_argument('--export', action='store', default=None, type=Path)
+    parser.add_argument('--path_export', action='store', default=None, type=Path)
 
     parser.add_argument('--log_level', action='store', type=int, help='loglevel of output to stdout', default=logging.INFO)
 
@@ -165,8 +172,8 @@ if __name__ == '__main__':
     from wsgiref import simple_server
     app = create_wsgi_app(**kwargs)
 
-    if kwargs['export']:
-        export(kwargs['export'])
+    if kwargs['path_export']:
+        export(**kwargs)
         exit()
 
     try:

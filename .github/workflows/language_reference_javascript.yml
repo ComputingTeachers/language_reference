@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - ".github/workflows/language_reference_javascript.yml"
-      - "make_ver/**"
       - "language_reference/languages/javascript"
 
 jobs:

@@ -28,7 +28,6 @@ on:
       - main
     paths:
       - ".github/workflows/language_reference_$LANGUAGE.yml"
-      - "make_ver/**"
       - "language_reference/languages/$LANGUAGE"
 
 jobs:

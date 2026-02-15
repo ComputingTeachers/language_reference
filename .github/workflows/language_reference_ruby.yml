@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - ".github/workflows/language_reference_ruby.yml"
-      - "make_ver/**"
       - "language_reference/languages/ruby"
 
 jobs:

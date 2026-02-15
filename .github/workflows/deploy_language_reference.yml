@@ -5,9 +5,10 @@ on:
     branches:
       - main
     paths:
-      - ".github/workflows/deploy_website.yml"
+      - ".github/workflows/deploy_language_reference.yml"
       - "make_ver/**"
       - "language_reference/**"
+      - "static/language_reference.html"
 
 jobs:
   deploy:
@@ -18,5 +19,16 @@ jobs:
       #- name: run_languages
       #  run: make --directory language_reference build_and_run
 
-      #- name: build_static
-      #  run: (cd teachprogramming/lib && make build_static)
+      - name: build_static
+        run: make build_language_reference_docker
+
+      # - name: rsync deployments
+      #   uses: burnett01/rsync-deployments@v8
+      #   with:
+      #     switches: -avzr --delete
+      #     path: api/
+      #     remote_path: ${{ secrets.REMOTE_PATH }} # ex: /var/www/html/
+      #     remote_host: ${{ secrets.REMOTE_HOST }} # ex: example.com
+      #     remote_port: ${{ secrets.REMOTE_PORT }} # ex: 22
+      #     remote_user: ${{ secrets.REMOTE_USER }} # ex: ubuntu
+      #     remote_key: ${{ secrets.REMOTE_PRIVATE_KEY }}
