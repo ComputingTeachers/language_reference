@@ -9,7 +9,7 @@ on:
       - "language_reference/languages/rust"
 
 jobs:
-  deploy:
+  language_check_rust:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main

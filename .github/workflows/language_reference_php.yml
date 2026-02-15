@@ -9,7 +9,7 @@ on:
       - "language_reference/languages/php"
 
 jobs:
-  deploy:
+  language_check_php:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main

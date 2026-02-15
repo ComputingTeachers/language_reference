@@ -9,7 +9,7 @@ on:
       - "language_reference/languages/java"
 
 jobs:
-  deploy:
+  language_check_java:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main

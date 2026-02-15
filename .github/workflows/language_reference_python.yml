@@ -9,7 +9,7 @@ on:
       - "language_reference/languages/python"
 
 jobs:
-  deploy:
+  language_check_python:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main

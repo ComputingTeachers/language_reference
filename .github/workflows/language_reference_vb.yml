@@ -9,7 +9,7 @@ on:
       - "language_reference/languages/vb"
 
 jobs:
-  deploy:
+  language_check_vb:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main

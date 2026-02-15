@@ -9,7 +9,7 @@ on:
       - "language_reference/languages/c"
 
 jobs:
-  deploy:
+  language_check_c:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main

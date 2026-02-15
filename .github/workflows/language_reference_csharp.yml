@@ -9,7 +9,7 @@ on:
       - "language_reference/languages/csharp"
 
 jobs:
-  deploy:
+  language_check_csharp:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main

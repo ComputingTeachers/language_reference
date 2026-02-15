@@ -31,7 +31,7 @@ on:
       - "language_reference/languages/$LANGUAGE"
 
 jobs:
-  deploy:
+  language_check_$LANGUAGE:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main

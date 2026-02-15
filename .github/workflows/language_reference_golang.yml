@@ -9,7 +9,7 @@ on:
       - "language_reference/languages/golang"
 
 jobs:
-  deploy:
+  language_check_golang:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
