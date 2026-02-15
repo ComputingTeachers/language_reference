@@ -1,17 +1,19 @@
 [project]
-name = "make_ver"
-version = "0.0.0"
-description = ""
-readme = "README.md"
-requires-python = ">= 3.14"
-dependencies = [
-    "falcon",
-]
+    name = "make_ver"
+    version = "0.0.0"
+    description = ""
+    readme = "README.md"
+    requires-python = ">= 3.14"
+    dependencies = [
+        "falcon",
+    ]
+
 [dependency-groups]
-dev = [
-    "pytest",
-]
+    dev = [
+        "pytest",
+    ]
+
 [tool.pytest]
-addopts = ["--doctest-modules"]
-pythonpath = ["."]
-cache_dir = "../.pytest_cache"
+    addopts = ["--doctest-modules"]
+    pythonpath = ["."]
+    cache_dir = "../.pytest_cache"

@@ -1,3 +1,11 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = "~=3.14"
+# dependencies = [
+#   "falcon",
+# ]
+# ///
+
 import logging
 from pathlib import Path
 from typing import Iterable
@@ -6,9 +14,9 @@ import falcon
 
 import _falcon_helpers
 
-from .make_ver import LANGUAGES
-from .language_versions import LanguageVersions
-from .project_versions import ProjectVersions
+from make_ver.make_ver import LANGUAGES
+from make_ver.language_versions import LanguageVersions
+from make_ver.project_versions import ProjectVersions
 
 log = logging.getLogger(__name__)
 
@@ -89,13 +97,13 @@ class ProjectResource():
 
 # Setup App -------------------------------------------------------------------
 
-def create_wsgi_app(project_path=None, language_path=None, **kwargs):
+def create_wsgi_app(path_project: Path, path_language: Path, path_static: Path, **kwargs):
     app = falcon.App()
     app.add_route(r'/', IndexResource())
-    app.add_static_route(r'/static', str(Path('static').resolve()))
-    app.add_route(r'/api/v1/language_reference.json', LanguageReferenceResource(language_path))
-    app.add_route(r'/api/v1/projects.json', ProjectListResource(project_path))
-    _falcon_helpers.add_sink(app, r'/api/v1/projects/', ProjectResource(project_path), func_path_normalizer=_falcon_helpers.func_path_normalizer_no_extension)
+    app.add_static_route(r'/static', str(path_static.resolve()))
+    app.add_route(r'/api/v1/language_reference.json', LanguageReferenceResource(path_language))
+    app.add_route(r'/api/v1/projects.json', ProjectListResource(path_project))
+    _falcon_helpers.add_sink(app, r'/api/v1/projects/', ProjectResource(path_project), func_path_normalizer=_falcon_helpers.func_path_normalizer_no_extension)
     _falcon_helpers.update_json_handlers(app)
     # TODO: Currently unable to drop into debugger on error - investigate?
     # https://falcon.readthedocs.io/en/stable/api/app.html#falcon.App.add_error_handler
@@ -109,9 +117,9 @@ def export(output_path: Path = Path()) -> None:
     test_client = falcon_testing.TestClient(app)
     def read_write(url):
         log.info(url)
-        path = output_path.joinpath(url.strip('/'))
-        path.parent.mkdir(parents=True, exist_ok=True)
-        with path.open('wt', encoding="utf-8") as filehandle:
+        file_path = output_path.joinpath(url.strip('/'))
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        with file_path.open('wt', encoding="utf-8") as filehandle:
             data = test_client.simulate_get(url)
             filehandle.write(data.text)
             return data.json
@@ -133,13 +141,14 @@ def get_args():
         ''',
     )
 
-    parser.add_argument('project_path', action='store', default='./', help='')
-    parser.add_argument('language_path', action='store', default='./', help='')
+    parser.add_argument('--path_project', action='store', default='./', help='', type=Path)
+    parser.add_argument('--path_language', action='store', default='./', help='', type=Path)
+    parser.add_argument('--path_static', action='store', default='./', help='', type=Path)
 
     parser.add_argument('--host', action='store', default='0.0.0.0', help='')
     parser.add_argument('--port', action='store', default=8000, type=int, help='')
 
-    parser.add_argument('--export', action='store', type=Path)
+    parser.add_argument('--export', action='store', default=None, type=Path)
 
     parser.add_argument('--log_level', action='store', type=int, help='loglevel of output to stdout', default=logging.INFO)
 

@@ -31,7 +31,12 @@ test_docker:
 build_static_local:
 	python3 api.py ../static/projects/ ../static/language_reference/languages/ --export
 serve_local:
-	uv run -m pdb -c continue  api.py ../static/projects/ ../static/language_reference/languages/
+	#uv run -m pdb -c continue \
+	api.py \
+		--path_static   ../static/ \
+		--path_language ../language_reference/languages/ \
+		--path_project  ~/code/personal/TeachProgramming/teachprogramming/static/projects/ \
+
 	# http://localhost:8000/static/index.html
 	# http://localhost:8000/api/v1/language_reference.json
 test:
