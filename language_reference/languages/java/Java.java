@@ -319,11 +319,11 @@ try (BufferedWriter writer = Files.newBufferedWriter(path))
     System.out.println(grid1[0][0]);                 // VER: define_2d_arrays_with_nested_arrays
 
     record Point(Integer x, Integer y) {}                 // VER: define_2d_arrays_with_1d_array_with_lookup_function
-    record Dimension(Integer width, Integer height) {     // VER: define_2d_arrays_with_1d_array_with_lookup_function
-      Integer size() {return width() * height();}         // VER: define_2d_arrays_with_1d_array_with_lookup_function
+    record Dimension(Integer w, Integer h) {     // VER: define_2d_arrays_with_1d_array_with_lookup_function
+      Integer size() {return w() * h();}         // VER: define_2d_arrays_with_1d_array_with_lookup_function
       Integer coord_to_index(Point p) {return coord_to_index(p.x(), p.y());}                // VER: define_2d_arrays_with_1d_array_with_lookup_function
-      Integer coord_to_index(Integer x, Integer y) {return (y * width()) + (x % width());}  // VER: define_2d_arrays_with_1d_array_with_lookup_function
-      Point index_to_coord(Integer i) {return new Point(i % width(), i / width());}         // VER: define_2d_arrays_with_1d_array_with_lookup_function
+      Integer coord_to_index(Integer x, Integer y) {return (y * w()) + (x % w());}  // VER: define_2d_arrays_with_1d_array_with_lookup_function
+      Point index_to_coord(Integer i) {return new Point(i % w(), i / w());}         // VER: define_2d_arrays_with_1d_array_with_lookup_function
     }                 // VER: define_2d_arrays_with_1d_array_with_lookup_function
                                                         // VER: define_2d_arrays_with_1d_array_with_lookup_function
     Dimension d = new Dimension(width, height);         // VER: define_2d_arrays_with_1d_array_with_lookup_function
@@ -431,6 +431,7 @@ try (BufferedWriter writer = Files.newBufferedWriter(path))
     define_map();
     define_set();
     function_with_param_function();
+    define_2d_arrays();
   }
 
 }
