@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - ".github/workflows/language_reference_vb.yml"
-      - "language_reference/languages/vb"
+      - "language_reference/languages/vb/**"
 
 jobs:
   language_check_vb:

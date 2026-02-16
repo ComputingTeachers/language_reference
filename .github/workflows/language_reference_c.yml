@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - ".github/workflows/language_reference_c.yml"
-      - "language_reference/languages/c"
+      - "language_reference/languages/c/**"
 
 jobs:
   language_check_c:

@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - ".github/workflows/language_reference_python.yml"
-      - "language_reference/languages/python"
+      - "language_reference/languages/python/**"
 
 jobs:
   language_check_python:

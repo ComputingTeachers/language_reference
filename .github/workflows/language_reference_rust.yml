@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - ".github/workflows/language_reference_rust.yml"
-      - "language_reference/languages/rust"
+      - "language_reference/languages/rust/**"
 
 jobs:
   language_check_rust:

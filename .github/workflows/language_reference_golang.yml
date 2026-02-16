@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - ".github/workflows/language_reference_golang.yml"
-      - "language_reference/languages/golang"
+      - "language_reference/languages/golang/**"
 
 jobs:
   language_check_golang:

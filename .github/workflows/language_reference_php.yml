@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - ".github/workflows/language_reference_php.yml"
-      - "language_reference/languages/php"
+      - "language_reference/languages/php/**"
 
 jobs:
   language_check_php:

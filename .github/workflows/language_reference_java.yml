@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - ".github/workflows/language_reference_java.yml"
-      - "language_reference/languages/java"
+      - "language_reference/languages/java/**"
 
 jobs:
   language_check_java:

@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - ".github/workflows/language_reference_ruby.yml"
-      - "language_reference/languages/ruby"
+      - "language_reference/languages/ruby/**"
 
 jobs:
   language_check_ruby:

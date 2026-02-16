@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - ".github/workflows/language_reference_lua.yml"
-      - "language_reference/languages/lua"
+      - "language_reference/languages/lua/**"
 
 jobs:
   language_check_lua:

@@ -28,7 +28,7 @@ on:
       - main
     paths:
       - ".github/workflows/language_reference_$LANGUAGE.yml"
-      - "language_reference/languages/$LANGUAGE"
+      - "language_reference/languages/$LANGUAGE/**"
 
 jobs:
   language_check_$LANGUAGE:

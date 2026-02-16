@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - ".github/workflows/language_reference_csharp.yml"
-      - "language_reference/languages/csharp"
+      - "language_reference/languages/csharp/**"
 
 jobs:
   language_check_csharp:
