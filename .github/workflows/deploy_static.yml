@@ -18,7 +18,7 @@ jobs:
         uses: burnett01/rsync-deployments@v8
         with:
           switches: -avzr
-          path: static
+          path: static/
           remote_path: ${{ secrets.REMOTE_PATH }}/static/ # ex: /var/www/html/
           remote_host: ${{ secrets.REMOTE_HOST }} # ex: example.com
           remote_port: ${{ secrets.REMOTE_PORT }} # ex: 22
