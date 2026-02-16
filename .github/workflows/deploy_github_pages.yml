@@ -27,7 +27,7 @@ jobs:
         run: |
           mkdir -p build/api/v1/
           cp api/v1/language_reference.json build/api/v1/language_reference.json
-          cp static/language_reference.html build/index.html
+          cp static/langauge_reference.html build/index.html
 
       - name: Upload static files as artifact
         id: deployment
