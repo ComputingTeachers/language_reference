@@ -155,7 +155,7 @@ try (BufferedWriter writer = Files.newBufferedWriter(path))
   void file_write() {
     String line_to_write = "Append to end of file"; // VER: file_write
     try { // VER: file_write
-      BufferedWriter file = new BufferedWriter(new FileWriter("out.txt", true));  // VER: file_write
+      BufferedWriter file = new BufferedWriter(new FileWriter("out.txt",true));  // VER: file_write
       file.write(line_to_write); // VER: file_write
       file.close(); // VER: file_write
     } // VER: file_write
@@ -232,7 +232,7 @@ try (BufferedWriter writer = Files.newBufferedWriter(path))
     }
 
   void define_list() {
-    List<String> cc = new ArrayList<>(Arrays.asList(new String[]{"a", "b", "c"}));  // VER: define_list
+    List<String> cc = new ArrayList<>(Arrays.asList(new String[]{"a","b","c"}));  // VER: define_list
     System.out.println(String.join(",", cc));   // VER: define_list
     System.out.println(cc.get(0)); // VER: define_list
     String last = cc.remove(cc.size()-1);
@@ -286,7 +286,8 @@ try (BufferedWriter writer = Files.newBufferedWriter(path))
 
   void list_comprehension() {
     // int[] i = new int[]{1,2,3,4}; Arrays.stream(i).collect(toList());
-    List<Integer> data1 = new ArrayList<>(Arrays.asList(new Integer[]{1,2,3,4,5,6})); // VER: list_comprehension
+    List<Integer> data1 = new ArrayList<>(Arrays.asList(                        // VER: list_comprehension
+      new Integer[]{1,2,3,4,5,6}));                                             // VER: list_comprehension
     List<Integer> data2 = data1.stream()                                        // VER: list_comprehension
       .filter((i) -> i >= 3)                                                    // VER: list_comprehension
       .map((i) -> i * 2)                                                        // VER: list_comprehension
@@ -321,9 +322,9 @@ try (BufferedWriter writer = Files.newBufferedWriter(path))
     record Point(Integer x, Integer y) {}                 // VER: define_2d_arrays_with_1d_array_with_lookup_function
     record Dimension(Integer w, Integer h) {     // VER: define_2d_arrays_with_1d_array_with_lookup_function
       Integer size() {return w() * h();}         // VER: define_2d_arrays_with_1d_array_with_lookup_function
-      Integer coord_to_index(Point p) {return coord_to_index(p.x(), p.y());}                // VER: define_2d_arrays_with_1d_array_with_lookup_function
-      Integer coord_to_index(Integer x, Integer y) {return (y * w()) + (x % w());}  // VER: define_2d_arrays_with_1d_array_with_lookup_function
-      Point index_to_coord(Integer i) {return new Point(i % w(), i / w());}         // VER: define_2d_arrays_with_1d_array_with_lookup_function
+      Integer coord_to_index(Point p) {return coord_to_index(p.x(),p.y());}     // VER: define_2d_arrays_with_1d_array_with_lookup_function
+      Integer coord_to_index(Integer x, Integer y) {return (y*w())+(x%w());}    // VER: define_2d_arrays_with_1d_array_with_lookup_function
+      Point index_to_coord(Integer i) {return new Point(i%w(),i/w());}          // VER: define_2d_arrays_with_1d_array_with_lookup_function
     }                 // VER: define_2d_arrays_with_1d_array_with_lookup_function
                                                         // VER: define_2d_arrays_with_1d_array_with_lookup_function
     Dimension d = new Dimension(width, height);         // VER: define_2d_arrays_with_1d_array_with_lookup_function
