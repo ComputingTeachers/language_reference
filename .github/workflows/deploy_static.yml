@@ -1,0 +1,26 @@
+name: deploy_static
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/deploy_static.yml"
+      - "static/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@v8
+        with:
+          switches: -avzr
+          path: static
+          remote_path: ${{ secrets.REMOTE_PATH }}/static/ # ex: /var/www/html/
+          remote_host: ${{ secrets.REMOTE_HOST }} # ex: example.com
+          remote_port: ${{ secrets.REMOTE_PORT }} # ex: 22
+          remote_user: ${{ secrets.REMOTE_USER }} # ex: ubuntu
+          remote_key: ${{ secrets.REMOTE_PRIVATE_KEY }}
