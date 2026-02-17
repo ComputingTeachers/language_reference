@@ -46,6 +46,17 @@ Tools (in this repo)
     * Automated test suite for incremental versions.
     * Run tests to assert that each project version outputted compiles (and maybe runs).
 
+```mermaid
+flowchart TD
+
+python.py --> make_ver.py
+Java.java --> make_ver.py
+rust.rs   --> make_ver.py
+csharp.cs --> make_ver.py
+
+make_ver.py --> api.py --> language_reference.json --> Browser
+/static/language_reference.html --> Browser
+```
 
 Example Versions
 ----------------
@@ -58,18 +69,36 @@ Example Versions
     * [Java.java](./language_reference/languages/java/Java.java)
 
 
+`python.example.py`
 ```python
 a = 1           # VER: arithmetic
 print('hello')  # VER: output
 ```
 
+`java.example.java`
+```java
+int a = 1;                    // VER: arithmetic
+System.out.println('hello');  // VER: output
+```
+
+These versions are outputted to `language_reference.json`.
+
+The above `language_reference.json` is rendered by html/js to look something like the table below:
+
+|          | py             | java                         |
+|----------|----------------|------------------------------|
+|arithmetic|`a = 1`         |`int a = 1;`                  |
+|output    |`print('hello')`|`System.out.println('hello');`|
+
+
 ### `projects`
 
 * Uses versions by having a sequence of versions to build-up a complete solution incrementally
-* Example
+* Full Example
     * [copter.ver.json](https://github.com/calaldees/TeachProgramming/blob/master/teachprogramming/static/projects/game/copter.ver.json)
-    * [copter.html](https://github.com/calaldees/TeachProgramming/blob/master/teachprogramming/static/projects/game/copter.html)
-    * [copter.py](https://github.com/calaldees/TeachProgramming/blob/master/teachprogramming/static/projects/game/copter.py)
+        * [copter.html](https://github.com/calaldees/TeachProgramming/blob/master/teachprogramming/static/projects/game/copter.html)
+        * [copter.py](https://github.com/calaldees/TeachProgramming/blob/master/teachprogramming/static/projects/game/copter.py)
+    * This is output to `game/copter.json` which contains all the incremental versions of the copter project for all input languages
 
 
 Projects
@@ -80,10 +109,16 @@ Because projects are bigger and could contain further assets, projects are typic
 
 * A folder is recursively crawled for all `.ver` files.
 * For each `NAME.ver` file, all the languages that are loaded e.g. `NAME.py`+`NAME.java`+`NAME.cs`
-* A set of diff's are made for each version name incrementally
+* A set of diff's are made for each version name incrementally (output to `projects.json`)
 * A html/js viewer renders the diffs for each language
 
 
 `verify_snippets` (for projects)
 -----------------
 
+* There might be many incremental versions of a file (e.g. `copter.xxx` has 8 versions).
+* How do we know that all the possible versions are syntactically correct (can compile) and run?
+    * The final/complete output may be valid, but the incremental steps to get there may be broken/incomplete
+* To detect this, we can generate each potential version and:
+    * run it through a compiler to check it compiles
+    * (optional) run the program (this is optional and can be difficult for programs that need user input, graphics output or network communication)
