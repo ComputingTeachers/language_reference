@@ -28,7 +28,7 @@ jobs:
           mkdir -p build/
           cp api/v1/language_reference.json build/language_reference.json
           cp static/langauge_reference.html build/index.html
-          sed -i '' 's/\/api\/v1\/language_reference/language_reference/' build/index.html
+          sed -i 's/\/api\/v1\/language_reference/language_reference/' build/index.html
 
       - name: Upload static files as artifact
         id: deployment
