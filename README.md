@@ -46,6 +46,7 @@ Tools (in this repo)
     * Automated test suite for incremental versions.
     * Run tests to assert that each project version outputted compiles (and maybe runs).
 
+### `language_reference` tool flow
 ```mermaid
 flowchart TD
 
@@ -53,10 +54,27 @@ python.py --> make_ver.py
 Java.java --> make_ver.py
 rust.rs   --> make_ver.py
 csharp.cs --> make_ver.py
+...       --> make_ver.py
 
 make_ver.py --> api.py --> language_reference.json --> Browser
 /static/language_reference.html --> Browser
 ```
+
+### `<project>.json` tool flow
+```mermaid
+flowchart TD
+
+copter.ver.json --> make_ver.py
+copter.py       --> make_ver.py
+copter.java     --> make_ver.py
+...             --> make_ver.py
+
+make_ver.py --> api.py --> copter.json --> Browser
+/static/projects.html --> Browser
+
+copter.json --> verify_snippets
+```
+
 
 Example Versions
 ----------------
@@ -83,7 +101,7 @@ System.out.println('hello');  // VER: output
 
 These versions are outputted to `language_reference.json`.
 
-The above `language_reference.json` is rendered by html/js to look something like the table below:
+The above `language_reference.json` is rendered by html/js `/static/language_reference.html` to look something like the table below:
 
 |          | py             | java                         |
 |----------|----------------|------------------------------|
@@ -110,10 +128,10 @@ Because projects are bigger and could contain further assets, projects are typic
 * A folder is recursively crawled for all `.ver` files.
 * For each `NAME.ver` file, all the languages that are loaded e.g. `NAME.py`+`NAME.java`+`NAME.cs`
 * A set of diff's are made for each version name incrementally (output to `projects.json`)
-* A html/js viewer renders the diffs for each language
+* `/static/projects.html` A html/js viewer renders the diffs for each language
 
 
-`verify_snippets` (for projects)
+`verify_snippets` (for `project.json`)
 -----------------
 
 * There might be many incremental versions of a file (e.g. `copter.xxx` has 8 versions).
