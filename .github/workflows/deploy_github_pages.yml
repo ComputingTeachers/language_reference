@@ -25,9 +25,10 @@ jobs:
       - name: Organise `build` Folder
         id: organise
         run: |
-          mkdir -p build/api/v1/
-          cp api/v1/language_reference.json build/api/v1/language_reference.json
+          mkdir -p build/
+          cp api/v1/language_reference.json build/language_reference.json
           cp static/langauge_reference.html build/index.html
+          sed -i '' 's/\/api\/v1\/language_reference/language_reference/' build/index.html
 
       - name: Upload static files as artifact
         id: deployment
