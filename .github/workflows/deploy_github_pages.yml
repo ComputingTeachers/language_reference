@@ -8,7 +8,7 @@ on:
       - ".github/workflows/deploy_github_pages.yml"
       - "make_ver/**"
       - "language_reference/**"
-      - "static/**"
+      - "static/langauge_reference.html"
 
 jobs:
 
@@ -22,7 +22,7 @@ jobs:
         id: build
         run: make build_language_reference_docker
 
-      - name: Organise Output Folder
+      - name: Organise `build` Folder
         id: organise
         run: |
           mkdir -p build/api/v1/
@@ -41,6 +41,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      id-token: write
+      pages: write
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
